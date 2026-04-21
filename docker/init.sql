@@ -2,8 +2,21 @@
 -- Creates roles, branches, and admin users
 -- Password for all accounts: admin123
 
+-- Enable UUID extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Create unaccent function (for Vietnamese search)
+CREATE OR REPLACE FUNCTION unaccent(text)
+RETURNS text AS $$
+BEGIN
+    RETURN lower(translate($1,
+        'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÝÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýýÿþ',
+        'AAAAAAACEEEEIIIIDNOOOOOUUUUYYYYBaaaaaaaceeeeiiiidnooooouuuuyyyb'));
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
 -- Insert roles
-INSERT INTO ttdb_role (id, name) VALUES
+INSERT INTO ttdb_role (id, name) VALUES 
     ('ADMIN', 'Quản trị viên'),
     ('MANAGER', 'Quản lý'),
     ('STAFF', 'Nhân viên')
@@ -11,7 +24,7 @@ ON CONFLICT (id) DO NOTHING;
 
 -- Insert default branch (HQ)
 INSERT INTO ttdb_branch (id, name, address, phone, manager, status, created_at, updated_at, map_embed_url, map_url, zalo)
-VALUES
+VALUES 
     (1, 'Trụ sở chính', '123 Đường ABC, Quận XYZ, TP.HCM', '0123456789', 'ADMIN', 'ACTIVE', '20240421120000', '20240421120000', NULL, NULL, NULL)
 ON CONFLICT (id) DO NOTHING;
 
@@ -23,7 +36,3 @@ VALUES
     (2, 'admin2', '0192023a7bbd73250516f069df18b500', 'Admin 2', 'admin2@cty.com', '0123456790', '456 DEF, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL),
     (3, 'manager', '0192023a7bbd73250516f069df18b500', 'Manager', 'manager@cty.com', '0123456791', '789 GHI, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL)
 ON CONFLICT (id) DO NOTHING;
-
--- Reset sequences
-SELECT setval('ttdb_branch_id_seq', (SELECT MAX(id) FROM ttdb_branch));
-SELECT setval('ttdb_user_id_seq', (SELECT MAX(id) FROM ttdb_user));
