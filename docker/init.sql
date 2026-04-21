@@ -1,0 +1,29 @@
+-- Init SQL for Tonthep Duy Bao CRM
+-- Creates roles, branches, and admin users
+-- Password for all accounts: admin123
+
+-- Insert roles
+INSERT INTO ttdb_role (id, name) VALUES
+    ('ADMIN', 'Quản trị viên'),
+    ('MANAGER', 'Quản lý'),
+    ('STAFF', 'Nhân viên')
+ON CONFLICT (id) DO NOTHING;
+
+-- Insert default branch (HQ)
+INSERT INTO ttdb_branch (id, name, address, phone, manager, status, created_at, updated_at, map_embed_url, map_url, zalo)
+VALUES
+    (1, 'Trụ sở chính', '123 Đường ABC, Quận XYZ, TP.HCM', '0123456789', 'ADMIN', 'ACTIVE', '20240421120000', '20240421120000', NULL, NULL, NULL)
+ON CONFLICT (id) DO NOTHING;
+
+-- Insert 3 admin users (password: admin123 -> MD5)
+-- MD5 hash of "admin123" = 482c01101a19cb8e92949c2122e054c2
+INSERT INTO ttdb_user (id, username, password, full_name, email, phone, address, status, role_id, branch_id, created_at, updated_at, created_by, updated_by, deleted, avatar)
+VALUES
+    (1, 'admin', '482c01101a19cb8e92949c2122e054c2', 'Admin 1', 'admin1@cty.com', '0123456789', '123 ABC, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL),
+    (2, 'admin2', '482c01101a19cb8e92949c2122e054c2', 'Admin 2', 'admin2@cty.com', '0123456790', '456 DEF, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL),
+    (3, 'manager', '482c01101a19cb8e92949c2122e054c2', 'Manager', 'manager@cty.com', '0123456791', '789 GHI, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL)
+ON CONFLICT (id) DO NOTHING;
+
+-- Reset sequences
+SELECT setval('ttdb_branch_id_seq', (SELECT MAX(id) FROM ttdb_branch));
+SELECT setval('ttdb_user_id_seq', (SELECT MAX(id) FROM ttdb_user));
