@@ -19,9 +19,9 @@ ON CONFLICT (id) DO NOTHING;
 -- MD5 hash of "admin123" = 482c01101a19cb8e92949c2122e054c2
 INSERT INTO ttdb_user (id, username, password, full_name, email, phone, address, status, role_id, branch_id, created_at, updated_at, created_by, updated_by, deleted, avatar)
 VALUES
-    (1, 'admin', '482c01101a19cb8e92949c2122e054c2', 'Admin 1', 'admin1@cty.com', '0123456789', '123 ABC, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL),
-    (2, 'admin2', '482c01101a19cb8e92949c2122e054c2', 'Admin 2', 'admin2@cty.com', '0123456790', '456 DEF, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL),
-    (3, 'manager', '482c01101a19cb8e92949c2122e054c2', 'Manager', 'manager@cty.com', '0123456791', '789 GHI, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL)
+    (1, 'admin', '0192023a7bbd73250516f069df18b500', 'Admin 1', 'admin1@cty.com', '0123456789', '123 ABC, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL),
+    (2, 'admin2', '0192023a7bbd73250516f069df18b500', 'Admin 2', 'admin2@cty.com', '0123456790', '456 DEF, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL),
+    (3, 'manager', '0192023a7bbd73250516f069df18b500', 'Manager', 'manager@cty.com', '0123456791', '789 GHI, Ho Chi Minh', 'ACTIVE', 'ADMIN', 1, '20240421120000', '20240421120000', NULL, NULL, false, NULL)
 ON CONFLICT (id) DO NOTHING;
 
 -- Reset sequences
