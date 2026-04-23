@@ -42,13 +42,14 @@ public class SystemLogServiceImpl implements SystemLogService {
     @Override
     public ResponseEntity<Resource> download(final Integer day, final String type) {
         ResponseEntity<Resource> resource;
-        String fromTime = TimeUtils.now()
-                .minusDays(day)
-                .format(DateTimeFormatter.ofPattern(TimeUtils.DTF_yyyyMMddHHmmss));
-        String toTime = TimeUtils.nowStr();
+        // Use LocalDateTime for repository query
+        LocalDateTime fromTime = TimeUtils.now().minusDays(day).toLocalDateTime();
+        LocalDateTime toTime = TimeUtils.now().toLocalDateTime();
 
         List<SystemLog> systemLogs = systemLogRepository.searchAll(fromTime, toTime);
-        String fileName = "system_log_" + toTime + "." + type.toLowerCase();
+        // Use formatted string for filename
+        String toTimeStr = toTime.format(DateTimeFormatter.ofPattern(TimeUtils.DTF_yyyyMMddHHmmss));
+        String fileName = "system_log_" + toTimeStr + "." + type.toLowerCase();
         boolean isCSV = ESystemLogType.CSV.equals(ESystemLogType.valueOf(type));
 
         HttpHeaders headers = new HttpHeaders();
@@ -119,7 +120,7 @@ public class SystemLogServiceImpl implements SystemLogService {
     }
 
     private String getRowContent(final SystemLog item, final boolean isCSV) {
-        String time = item.getTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        String time = item.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         String userId = Objects.isNull(item.getUserId()) ? "" : String.valueOf(item.getUserId());
 
         return !isCSV

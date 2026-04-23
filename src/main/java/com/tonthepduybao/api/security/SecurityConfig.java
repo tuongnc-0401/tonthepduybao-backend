@@ -55,6 +55,7 @@ public class SecurityConfig {
                 "http://157.66.81.116"
             ));
             cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+            cors.setExposedHeaders(List.of("Content-Disposition"));
             return cors;
         };
     }
