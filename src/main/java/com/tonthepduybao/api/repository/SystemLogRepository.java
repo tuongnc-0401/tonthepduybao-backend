@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public interface SystemLogRepository extends JpaRepository<SystemLog, Long> {
             "   tsl.time >= :fromTime " +
             "   AND tsl.time <= :toTime " +
             "ORDER BY tsl.time DESC ")
-    List<SystemLog> searchAll(@Param("fromTime") String fromTime,
-                              @Param("toTime") String toTime);
+    List<SystemLog> searchAll(@Param("fromTime") LocalDateTime fromTime,
+                              @Param("toTime") LocalDateTime toTime);
 
 }
