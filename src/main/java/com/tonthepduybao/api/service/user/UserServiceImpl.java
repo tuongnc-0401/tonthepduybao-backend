@@ -165,7 +165,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(final UserUpdateForm form) {
-        User user = getMe();
+        User user = userRepository.findByUsernameAndDeleted(form.username(), false)
+                .orElseThrow(messageHelper.buildDataNotFound("Tên đăng nhập =", form.username()));
 
         user.setFullName(form.fullName());
         user.setPhone(form.phone());
