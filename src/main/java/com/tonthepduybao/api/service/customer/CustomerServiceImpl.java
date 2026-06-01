@@ -109,8 +109,8 @@ public class CustomerServiceImpl implements CustomerService {
                     return debtData;
                 }).toList();
 
-        long totalCustomer = customerRepository.countAllByType(ECustomerType.CUSTOMER);
-        long totalSupplier = customerRepository.countAllByType(ECustomerType.SUPPLIER);
+        long totalCustomer = customerRepository.countByTypeAndDeleted(ECustomerType.CUSTOMER, false);
+        long totalSupplier = customerRepository.countByTypeAndDeleted(ECustomerType.SUPPLIER, false);
         long totalDeleted = customerRepository.countAllByDeleted(true);
 
         CustomerListData data = CustomerListData.builder()

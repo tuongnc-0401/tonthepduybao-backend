@@ -31,7 +31,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     List<Customer> findAllByType(ECustomerType type);
 
-    long countAllByType(ECustomerType type);
+    long countByTypeAndDeleted(ECustomerType type, boolean deleted);
+    
     long countAllByDeleted(boolean deleted);
 
 }
